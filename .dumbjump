@@ -1,0 +1,4 @@
+# Odin global libraries
++ ${HOME}/Odin/core
++ ${HOME}/Odin/base
++ ${HOME}/Odin/vendor
