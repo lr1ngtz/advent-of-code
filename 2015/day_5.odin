@@ -16,13 +16,25 @@ main :: proc() {
 	nice_strings: int
 	lines := string(input)
 
-	for s in strings.split_lines_iterator(&lines) {
-		if is_nice_string(s) {
-			nice_strings += 1
+    /*
+after first iteration through split_lines_iterator the iterator is empty, slice can be used instead
+*/
+	// for s in strings.split_lines_iterator(&lines) {
+	// 	if is_nice_string(s) {
+	// 		nice_strings += 1
+	// 	}
+	// }
+	// fmt.println(nice_strings)
+
+    nice_strings_part_two: int
+    for s in strings.split_lines_iterator(&lines) {
+		if part_two(s) {
+			nice_strings_part_two += 1
 		}
 	}
 
-	fmt.println(nice_strings)
+
+    fmt.println(nice_strings_part_two)
 }
 
 
@@ -52,4 +64,26 @@ is_nice_string :: proc(s: string) -> bool {
 	}
 
 	return false
+}
+
+
+part_two :: proc(s: string) -> bool {
+    has_gap_repeat := false
+    for i in 0..<len(s)-2 {
+        if s[i] == s[i+2] {
+            has_gap_repeat = true
+            break
+        }
+    }
+    if !has_gap_repeat do return false
+
+    for i in 0..<len(s)-1 {
+        pair := s[i:i+2]
+        for j := i+2; j < len(s)-1; j += 1 {
+            if s[j:j+2] == pair {
+                return true
+            }
+        }
+    }
+    return false
 }
